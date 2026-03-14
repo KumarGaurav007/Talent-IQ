@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, SignInButton, SignOutButton, UserAvatar, UserProfile } from '@clerk/clerk-react'
+import { SignedIn, SignedOut, SignInButton, SignOutButton, UserAvatar, UserButton, UserProfile } from '@clerk/clerk-react'
 
 function App() {
 
@@ -13,7 +13,7 @@ function App() {
                 <SignOutButton/>
             </SignedIn>
             
-            <UserProfile/>
+            <UserButton/>
         </>
     )
 }
