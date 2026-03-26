@@ -3,6 +3,7 @@ import path from "path";
 import cors from "cors";
 import { ENV } from "./lib/env.js";
 import { connectDB } from "./lib/db.js";
+import { chatClient } from "./lib/stream.js";
 import { serve } from "inngest/express"
 import { inngest, functions } from "./lib/inngest.js";
 
