@@ -3,9 +3,10 @@ import path from "path";
 import cors from "cors";
 import { ENV } from "./lib/env.js";
 import { connectDB } from "./lib/db.js";
-import { chatClient } from "./lib/stream.js";
 import { serve } from "inngest/express"
 import { inngest, functions } from "./lib/inngest.js";
+import { clerkMiddleware } from '@clerk/express'
+import chatRoutes from "./routes/chatRoutes.js"
 
 const app = express();
 
@@ -13,18 +14,16 @@ const __dirname = path.resolve();
 
 // middleware
 app.use(express.json())
+app.use(clerkMiddleware())
 app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }))
 
+
 app.use("/api/inngest", serve({ client: inngest, functions }))
+app.use("/api/chat", chatRoutes)
 
 app.get("/", (req, res) => {
     res.status(200).json({ msg: "sucess from api" })
 })
-
-app.get("/test-stream-users", async (req, res) => {
-    const response = await chatClient.queryUsers({});
-    res.json(response.users);
-});
 
 //? make our app ready for deployment 
 if (ENV.NODE_ENV === "production") {
