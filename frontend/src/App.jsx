@@ -1,18 +1,22 @@
-import { Route, Routes } from "react-router"
+import { Navigate, Route, Routes } from "react-router"
 import HomePage from "./pages/HomePage"
 import ProblemsPage from "./pages/ProblemsPage"
 import { useUser } from "@clerk/clerk-react"
-import toast, { Toaster } from "react-hot-toast"
+import DashboardPage from "./pages/DashboardPage";
+import {Toaster} from "react-hot-toast"
 
 function App() {
-    const { isSignedIn } = useUser();
+    const { isSignedIn, isLoaded } = useUser();
+
+    if(!isLoaded) return null;
 
     return (
         <>
             <Toaster/>
             <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/problems" element={isSignedIn ? <ProblemsPage /> : <HomePage />} />
+                <Route path="/" element={isSignedIn ? <Navigate to={"/dashboard"}/> : <HomePage />} />
+                <Route path="/dashboard" element={isSignedIn ? <DashboardPage/> : <Navigate to={"/"}/>} />
+                <Route path="/problems" element={isSignedIn ? <ProblemsPage /> : <Navigate to={"/"} />} />
             </Routes>
 
             
